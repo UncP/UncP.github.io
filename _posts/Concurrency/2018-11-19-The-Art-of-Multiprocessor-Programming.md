@@ -68,7 +68,7 @@ class LockTwo implements Lock {
 
 > 如果线程 B 在线程 A 之后执行，那么 B 将死锁。
 
-&nbsp;
+
 
 `LockOne` 与 `LockTwo` 互为补充。
 
@@ -139,7 +139,7 @@ class Filter implements Lock {
 }
 ```
 
-
+&nbsp;
 
 ### The Bakery Lock
 
@@ -174,4 +174,67 @@ class Bakery implements Lock {
   }
 }
 ```
+
+&nbsp;
+
+## Chapter 3
+
+$Amdahl’s\ Law:\ S=\frac{1}{1-p+\frac{p}{n}}$
+
+$p$: 一个任务可以被并发执行的比例
+
+$n$: 线程数量
+
+
+
+ ### quiescent(relaxed) consistency
+
+
+
+### Sequential Consistency
+
+**定义：**
+
+The result of any execution is the same as if the operations of all the processors were executed in some sequential order, and the operations of each individual processor appear in this sequence in the order specified by its program.
+
+**要求：**
+
+1. Each processor issues memory requests in the order specified by it's program
+2. Memory requests from all processors issued to an individual memory module are serviced from a single FIFO queue. Issuing a memory request consists of entering the request on this queue.
+
+**注意：**
+
+1. 并不保证 real time ordering，以下序列是合法的：
+
+   ```
+   Enq(x) A
+   Ok()   A
+   Enq(y) B
+   Deq()  A
+   Ok()   B
+   Ok(y)  A
+   ```
+
+2. 没有局部性（locality）
+
+   ```
+   p Enq(x) A
+   p Ok()   A
+   q Enq(y) B   (1)
+   q Ok()   B
+   q Enq(x) A
+   q Ok()   A
+   p Enq(y) B   (2)
+   p Ok()   B
+   p Deq()  A
+   p Ok(y)  A   (3)
+   q Deq()  B
+   q Ok(x)  B   (4)
+   ```
+
+   对于 p 和 q 来说满足顺序一致性，但是作为一个整体不满足，因为对于线程 A 来说，如果 (3) 成立，那么意味着 B 先执行了 (2)，同时意味着 B 先执行了 (1)，在这种情况下 (4) 无法成立。
+
+&nbsp;
+
+### Linearizability
 
