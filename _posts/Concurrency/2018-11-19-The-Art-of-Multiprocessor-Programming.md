@@ -199,12 +199,12 @@ The result of any execution is the same as if the operations of all the processo
 
 **要求：**
 
-1. Each processor issues memory requests in the order specified by it's program
-2. Memory requests from all processors issued to an individual memory module are serviced from a single FIFO queue. Issuing a memory request consists of entering the request on this queue.
+1. Each processor issues memory requests in the order specified by it's program，*first-appear, first-serve*
+2. Memory requests from all processors issued to an individual memory module are serviced from a single FIFO queue. Issuing a memory request consists of entering the request on this queue, *first-come, first-serve*
 
 **注意：**
 
-1. 并不保证 real time ordering，以下序列是合法的：
+1. 不保证 real time ordering，以下序列是合法的：
 
    ```
    Enq(x) A
@@ -234,7 +234,46 @@ The result of any execution is the same as if the operations of all the processo
 
    对于 p 和 q 来说满足顺序一致性，但是作为一个整体不满足，因为对于线程 A 来说，如果 (3) 成立，那么意味着 B 先执行了 (2)，同时意味着 B 先执行了 (1)，在这种情况下 (4) 无法成立。
 
+3. 非阻塞
+
 &nbsp;
 
 ### Linearizability
+
+**定义：**
+
+> $<_{H}: e_{0} <_{H} e_{1}\;if\;res(e_{0})\;precedes\;inv(e_{1})\;in\;H.$
+
+1. complete(H') 等价于某个合法化的顺序华历史 S
+2. $<_{H}\;\subseteq\;<_{S}$
+
+**特点：**
+
+1. 局部性，历史 H 中每个对象 x 是线性化的，才能保证 H 是线性化的。
+2. 非阻塞
+
+&nbsp;
+
+### Serializable
+
+**定义：**
+
+每个事务都没有交叉地顺序执行
+
+&nbsp;
+
+### Strict Serializable
+
+**定义：**
+
+每个事务在顺序化历史中的顺序和发生顺序相匹配，通常由二阶段锁保证，而不是 MVCC，也不是网络分区中提供 availability 的方法。
+
+线性化可被视为对单个对象进行单个操作的特殊 strict serializability。
+
+**特点：**
+
+1. 没有局部性，如 sequential consistency 中的 2，将 A 和 B 视为事务
+2. 阻塞
+
+
 
