@@ -272,7 +272,7 @@ The result of any execution is the same as if the operations of all the processo
 
 **特点：**
 
-1. 没有局部性，如 sequential consistency 中的 2，将 A 和 B 视为事务
+1. 没有局部性，如 sequential consistency 中的 2（将 A 和 B 视为事务）
 2. 阻塞
 
 
