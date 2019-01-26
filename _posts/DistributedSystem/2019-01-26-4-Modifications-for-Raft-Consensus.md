@@ -52,3 +52,6 @@ receiver:
 ### 行为
 
 收到投票时，在一个 election timeout 之内当前成员曾收到过 AppendEntry RPC，那么它会拒绝这次投票。
+
+这种行为的引入使得只有当超过半数的成员在 election timeout 之外没有收到 AppendEntry 后，选举才可能成功。其实这样的行为和 redis cluster 中的 master 切换是比较相似的。
+
