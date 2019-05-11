@@ -1,4 +1,4 @@
-这篇文章介绍 **Adaptive Radix Tree** 并且提供其并发算法。
+这篇文章介绍 **Adaptive Radix Tree** 并且提供其并发算法 **Multi-ART**。
 
 &nbsp;
 
