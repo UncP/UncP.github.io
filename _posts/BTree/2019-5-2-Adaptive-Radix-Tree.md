@@ -167,7 +167,7 @@ insert 和 vinsert 目前没有使用
 
 Multi-ART 的性能相较于 B Tree based 的并发算法，几乎是碾压。（当然这里需要指出的是为了实现的简单，并不保证 Multi-ART 的 Node4, Node16 和 Node48 中 key 是有序的）。
 
-Multi-ART 的高性能有很多因素，比如算法时间复杂度低，良好的节点设计，良好的并发策略设计等等。
+Multi-ART 的高性能有很多因素，比如算法时间复杂度低，cache 友好的节点设计，良好的并发策略设计等等。
 
 &nbsp;
 
